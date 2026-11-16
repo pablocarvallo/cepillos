@@ -1,0 +1,1120 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Cepillos</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Cepillos">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#DFE9FD" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#13244A" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg?v=ds1">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png?v=ds1">
+<style>
+/* Concepto: dos cepillos de dientes (casa y oficina) vistos desde arriba. El color de sus cerdas pasa del azul
+   intenso al blanco amarillento a medida que suman lavados; cada uno se gasta a su ritmo. Debajo, el desgaste
+   que suma cada día de la semana, el historial de cepillos y el respaldo. */
+/*DS:TOKENS:START*/
+/* ── Domésticas · sistema de diseño común (v1) ──────────────────────────────
+   Paleta: #2950F4 · #4D78F3 · #719DF6 · #99C2F8 · #BDEBFB, con el azul marino #182D4A de fondo oscuro.
+   Estilo iOS 27: tipografía del sistema (SF Pro), tarjetas blancas sobre fondo agrupado,
+   barras y botones de vidrio, cápsulas, esquinas amplias. Igual en todas las apps de la casa. */
+:root {
+  --ds-b1: #2950F4; --ds-b2: #4D78F3; --ds-b3: #719DF6; --ds-b4: #99C2F8; --ds-b5: #BDEBFB; --ds-navy: #182D4A;
+  --ds-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", system-ui, "Helvetica Neue", Arial, sans-serif;
+  --ds-font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro", system-ui, "Helvetica Neue", Arial, sans-serif;
+  --ds-font-round: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --ds-font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --ds-r-card: 24px; --ds-r-inner: 16px; --ds-r-field: 14px; --ds-r-sheet: 34px; --ds-r-pill: 999px;
+
+  --ds-bg: #EFF3FB;
+  --ds-bg-top: #DFE9FD;
+  --ds-surface: #FFFFFF;
+  --ds-surface-2: #F3F6FD;
+  --ds-fill: rgba(41, 80, 244, 0.07);
+  --ds-fill-2: rgba(41, 80, 244, 0.13);
+  --ds-ink: #0E1B33;
+  --ds-ink-2: #55617A;
+  --ds-ink-3: #8691A8;
+  --ds-line: rgba(24, 45, 74, 0.12);
+  --ds-line-2: rgba(24, 45, 74, 0.2);
+  --ds-tint: #2950F4;
+  --ds-tint-soft: #E5ECFE;
+  --ds-btn: #2950F4;
+  --ds-on-btn: #FFFFFF;
+  --ds-pos: #157A43; --ds-pos-soft: #DDF4E6;
+  --ds-neg: #D1281C; --ds-neg-soft: #FDE8E6;
+  --ds-warn: #A35500; --ds-warn-soft: #FFF0D9;
+  --ds-hero: radial-gradient(120% 90% at 100% 0%, rgba(189, 235, 251, 0.45) 0%, rgba(189, 235, 251, 0) 55%), linear-gradient(150deg, #4D78F3 0%, #2950F4 58%, #2141D6 100%);
+  --ds-hero-ink: #FFFFFF;
+  --ds-hero-ink-2: rgba(255, 255, 255, 0.84);
+  --ds-hero-line: rgba(255, 255, 255, 0.28);
+  --ds-hero-glass: rgba(255, 255, 255, 0.18);
+  --ds-glass: rgba(255, 255, 255, 0.7);
+  --ds-glass-strong: rgba(255, 255, 255, 0.86);
+  --ds-glass-line: rgba(255, 255, 255, 0.85);
+  --ds-glass-edge: rgba(14, 27, 51, 0.1);
+  --ds-glass-blur: blur(22px) saturate(1.8);
+  --ds-shadow-1: 0 1px 2px rgba(24, 45, 74, 0.05), 0 4px 14px rgba(24, 45, 74, 0.05);
+  --ds-shadow-2: 0 12px 32px rgba(24, 45, 74, 0.16), 0 2px 8px rgba(24, 45, 74, 0.08);
+  --ds-shadow-btn: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 6px 16px rgba(41, 80, 244, 0.26);
+  --ds-scrim: rgba(14, 27, 51, 0.36);
+  --ds-chart-1: #2950F4; --ds-chart-2: #719DF6; --ds-chart-3: #99C2F8; --ds-chart-4: #BDEBFB;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ds-bg: #0A1224;
+    --ds-bg-top: #13244A;
+    --ds-surface: #152340;
+    --ds-surface-2: #1C2C4D;
+    --ds-fill: rgba(113, 157, 246, 0.12);
+    --ds-fill-2: rgba(113, 157, 246, 0.2);
+    --ds-ink: #EEF3FF;
+    --ds-ink-2: #A9B6D0;
+    --ds-ink-3: #77859F;
+    --ds-line: rgba(189, 235, 251, 0.11);
+    --ds-line-2: rgba(189, 235, 251, 0.2);
+    --ds-tint: #8EB0FA;
+    --ds-tint-soft: rgba(113, 157, 246, 0.18);
+    --ds-btn: #3A62F5;
+    --ds-on-btn: #FFFFFF;
+    --ds-pos: #5DD68E; --ds-pos-soft: rgba(93, 214, 142, 0.14);
+    --ds-neg: #FF8A80; --ds-neg-soft: rgba(255, 138, 128, 0.14);
+    --ds-warn: #FFB65C; --ds-warn-soft: rgba(255, 182, 92, 0.14);
+    --ds-hero: radial-gradient(120% 90% at 100% 0%, rgba(189, 235, 251, 0.28) 0%, rgba(189, 235, 251, 0) 55%), linear-gradient(150deg, #3D68F2 0%, #2950F4 55%, #1C38C2 100%);
+    --ds-glass: rgba(24, 40, 70, 0.62);
+    --ds-glass-strong: rgba(24, 40, 70, 0.84);
+    --ds-glass-line: rgba(255, 255, 255, 0.14);
+    --ds-glass-edge: rgba(0, 0, 0, 0.4);
+    --ds-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --ds-shadow-2: 0 14px 36px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+    --ds-shadow-btn: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 6px 16px rgba(0, 0, 0, 0.35);
+    --ds-scrim: rgba(0, 0, 0, 0.55);
+    --ds-chart-1: #719DF6; --ds-chart-2: #4D78F3; --ds-chart-3: #99C2F8; --ds-chart-4: #BDEBFB;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ds-bg: #0A1224;
+  --ds-bg-top: #13244A;
+  --ds-surface: #152340;
+  --ds-surface-2: #1C2C4D;
+  --ds-fill: rgba(113, 157, 246, 0.12);
+  --ds-fill-2: rgba(113, 157, 246, 0.2);
+  --ds-ink: #EEF3FF;
+  --ds-ink-2: #A9B6D0;
+  --ds-ink-3: #77859F;
+  --ds-line: rgba(189, 235, 251, 0.11);
+  --ds-line-2: rgba(189, 235, 251, 0.2);
+  --ds-tint: #8EB0FA;
+  --ds-tint-soft: rgba(113, 157, 246, 0.18);
+  --ds-btn: #3A62F5;
+  --ds-on-btn: #FFFFFF;
+  --ds-pos: #5DD68E; --ds-pos-soft: rgba(93, 214, 142, 0.14);
+  --ds-neg: #FF8A80; --ds-neg-soft: rgba(255, 138, 128, 0.14);
+  --ds-warn: #FFB65C; --ds-warn-soft: rgba(255, 182, 92, 0.14);
+  --ds-hero: radial-gradient(120% 90% at 100% 0%, rgba(189, 235, 251, 0.28) 0%, rgba(189, 235, 251, 0) 55%), linear-gradient(150deg, #3D68F2 0%, #2950F4 55%, #1C38C2 100%);
+  --ds-glass: rgba(24, 40, 70, 0.62);
+  --ds-glass-strong: rgba(24, 40, 70, 0.84);
+  --ds-glass-line: rgba(255, 255, 255, 0.14);
+  --ds-glass-edge: rgba(0, 0, 0, 0.4);
+  --ds-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --ds-shadow-2: 0 14px 36px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --ds-shadow-btn: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 6px 16px rgba(0, 0, 0, 0.35);
+  --ds-scrim: rgba(0, 0, 0, 0.55);
+  --ds-chart-1: #719DF6; --ds-chart-2: #4D78F3; --ds-chart-3: #99C2F8; --ds-chart-4: #BDEBFB;
+  color-scheme: dark;
+}
+html { background: var(--ds-bg); }
+body {
+  font-family: var(--ds-font);
+  background: linear-gradient(180deg, var(--ds-bg-top) 0, var(--ds-bg) 340px) no-repeat, var(--ds-bg);
+  color: var(--ds-ink);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.012em;
+}
+/*DS:TOKENS:END*/
+/*DS:VARS:START*/
+
+/* Variables propias de la app, tomadas del sistema común */
+:root {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  --bg: var(--ds-bg); --surface: var(--ds-surface); --ink: var(--ds-ink); --muted: var(--ds-ink-2); --line: var(--ds-line-2);
+  --track: var(--ds-fill); --accent: var(--ds-tint); --accent-bg: var(--ds-tint-soft); --on-accent: var(--ds-on-btn);
+  --ok: var(--ds-pos); --ok-bg: var(--ds-pos-soft); --over: var(--ds-neg); --over-bg: var(--ds-neg-soft);
+  --warn: var(--ds-warn); --warn-bg: var(--ds-warn-soft); --scrim: var(--ds-scrim);
+  --font-display: var(--ds-font-display); --font-body: var(--ds-font); --font-round: var(--ds-font-round);
+}
+/*DS:VARS:END*/
+html.lock { overflow: hidden; }
+[hidden]:not([hidden=until-found i]) { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.4; padding-inline: 16px; -webkit-text-size-adjust: 100%; }
+.app { max-width: 480px; margin: 0 auto; padding-block: 20px 40px; display: flex; flex-direction: column; gap: 18px; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+h1, h2 { margin: 0; font-family: var(--font-display); letter-spacing: -0.01em; text-wrap: balance; }
+.eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; color: var(--muted); }
+.muted { color: var(--muted); margin: 0; }
+svg { display: block; }
+
+/* Encabezado */
+.top { display: flex; align-items: center; gap: 12px; }
+.mark { width: 44px; height: 44px; border-radius: 14px; background: var(--accent-bg); color: var(--accent); display: grid; place-items: center; flex: none; }
+.top h1 { font-size: 28px; font-weight: 700; line-height: 1.1; }
+
+/* Botones */
+.btn { min-height: 52px; padding: 0 20px; border-radius: 14px; border: 1.5px solid transparent; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.btn:active { opacity: 0.85; }
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.ghost { background: transparent; border-color: var(--line); color: var(--ink); }
+.btn.danger { background: transparent; border-color: var(--over); color: var(--over); }
+.btn.danger.armed { background: var(--over); color: var(--bg); }
+.btn.small { min-height: 44px; padding: 0 14px; font-size: 15px; }
+.btn.block { width: 100%; }
+
+/* Listas e historial */
+.sec-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.sec-head h2 { font-size: 22px; }
+.list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.row { width: 100%; text-align: left; display: grid; grid-template-columns: 40px minmax(0, 1fr) 20px; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px; min-height: 64px; }
+.row:active { background: var(--track); }
+.dur { text-align: center; line-height: 1; }
+.dur b { display: block; font-family: var(--font-round); font-weight: 700; font-size: 26px; font-variant-numeric: tabular-nums; }
+.dur span { display: block; margin-top: 4px; font-size: 12px; font-weight: 600; color: var(--muted); }
+.info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.range { font-weight: 600; }
+.meta { font-size: 14px; color: var(--muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.badge { background: var(--accent-bg); color: var(--accent); border-radius: 999px; font-size: 12px; font-weight: 600; padding: 2px 10px; }
+.row > svg { color: var(--muted); }
+.empty { margin: 0; padding: 16px; border: 1.5px dashed var(--line); border-radius: 18px; color: var(--muted); }
+.hint { margin: 0; font-size: 13px; color: var(--muted); text-align: center; }
+
+/* Respaldo */
+.backup { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 4px 16px; }
+.backup summary { min-height: 48px; display: flex; align-items: center; font-weight: 600; cursor: pointer; }
+.backup[open] { padding-bottom: 16px; }
+.backup > *:not(summary) { margin-top: 10px; }
+.backup textarea { width: 100%; box-sizing: border-box; border: 1.5px solid var(--line); border-radius: 12px; background: var(--bg); padding: 10px 12px; font-size: 14px; font-family: ui-monospace, Menlo, monospace; resize: vertical; }
+.bk-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.bk-actions .btn { flex: 1; min-width: 0; min-height: 48px; }
+
+/* Hoja de registro */
+.sheet { position: fixed; inset: 0; z-index: 10; display: flex; align-items: flex-end; justify-content: center; }
+.backdrop { position: absolute; inset: 0; background: var(--scrim); }
+.panel { position: relative; width: 100%; max-width: 480px; max-height: 92%; overflow-y: auto; overscroll-behavior: contain; background: var(--surface); border-radius: 24px 24px 0 0; box-sizing: border-box; padding: 22px 16px calc(22px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 16px; animation: rise 0.2s ease-out; }
+.panel:focus { outline: none; }
+.panel h2 { font-size: 24px; }
+.panel .sub { margin: -8px 0 0; color: var(--muted); font-size: 15px; }
+.field { display: flex; flex-direction: column; gap: 6px; border: 0; padding: 0; margin: 0; min-width: 0; }
+.field > span { font-size: 14px; font-weight: 600; padding: 0; }
+.field input[type="date"] { display: block; width: 100%; min-width: 0; min-height: 52px; box-sizing: border-box; -webkit-appearance: none; appearance: none; font-size: 16px; border: 1.5px solid var(--line); border-radius: 12px; padding: 0 14px; background: var(--bg); color: var(--ink); }
+.err { margin: 0; padding: 10px 12px; border-radius: 12px; background: var(--over-bg); color: var(--over); font-weight: 600; font-size: 15px; }
+.stack { display: flex; flex-direction: column; gap: 10px; }
+@keyframes rise { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+.toast { position: fixed; left: 16px; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); max-width: 448px; margin: 0 auto; z-index: 20; background: var(--ink); color: var(--bg); padding: 12px 16px; border-radius: 14px; font-size: 15px; text-align: center; }
+/*DS:BASE:START*/
+/* ── Domésticas · elementos comunes (v1): fondo, tipografía, campos, icono de la app ── */
+html { background: var(--ds-bg); }
+body {
+  font-family: var(--ds-font);
+  background: linear-gradient(180deg, var(--ds-bg-top) 0, var(--ds-bg) 360px) no-repeat, var(--ds-bg);
+  color: var(--ds-ink);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+h1, h2, h3, h4 { font-family: var(--ds-font-display); letter-spacing: -0.022em; }
+button, input, select, textarea { font-family: inherit; }
+::selection { background: var(--ds-tint-soft); }
+:focus-visible { outline-color: var(--ds-tint); }
+input, select, textarea { accent-color: var(--ds-btn); caret-color: var(--ds-tint); }
+@keyframes ds-rise { from { transform: translateY(28px); opacity: 0; } to { transform: none; opacity: 1; } }
+.mark.app-icon, img.app-icon { display: block; overflow: hidden; padding: 0; background: none; object-fit: cover; border-radius: 23%; box-shadow: 0 0 0 0.5px rgba(14, 27, 51, 0.08), 0 4px 12px rgba(41, 80, 244, 0.25); }
+/*DS:BASE:END*/
+
+/*DS:COMP:START*/
+/* ── Domésticas · componentes comunes (v1) ── */
+body { font-size: 17px; line-height: 1.38; }
+.app { gap: 20px; padding-block: 14px 48px; }
+.eyebrow { font-size: 13px; font-weight: 600; text-transform: none; letter-spacing: -0.005em; color: var(--ds-ink-2); }
+.muted { color: var(--ds-ink-2); }
+
+/* Encabezado con título grande */
+.top { gap: 12px; padding-top: 6px; }
+.top h1 { font-size: 34px; line-height: 1.08; font-weight: 700; letter-spacing: -0.03em; }
+.mark {
+  width: 46px; height: 46px; border-radius: 13px; color: #fff; background: var(--ds-hero);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 0 rgba(14, 27, 51, 0.18), 0 4px 12px rgba(41, 80, 244, 0.28);
+}
+.mark svg, .mark img { filter: drop-shadow(0 1px 1px rgba(14, 27, 51, 0.25)); }
+
+/* Botones: cápsulas, relleno sólido o tintado */
+.btn {
+  min-height: 50px; border-radius: var(--ds-r-pill); border: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.01em;
+  transition: transform 0.16s ease, opacity 0.16s ease, background-color 0.16s ease;
+}
+.btn:active { transform: scale(0.97); opacity: 0.88; }
+.btn.primary { background: var(--ds-btn); color: var(--ds-on-btn); box-shadow: var(--ds-shadow-btn); }
+.btn.tonal { background: var(--ds-tint-soft); color: var(--ds-tint); }
+.btn.ghost { background: var(--ds-surface); color: var(--ds-tint); border: 0; box-shadow: var(--ds-shadow-1); }
+.btn.plus { background: var(--ds-surface); color: var(--ds-pos); border: 0; box-shadow: var(--ds-shadow-1); }
+.btn.danger { background: var(--ds-neg-soft); color: var(--ds-neg); border: 0; }
+.btn.danger.armed { background: var(--ds-neg); color: #fff; }
+.btn.small { min-height: 40px; padding: 0 16px; font-size: 15px; }
+.btn.big { min-height: 58px; border-radius: 20px; font-size: 16px; line-height: 1.2; }
+.linkbtn { color: var(--ds-tint); text-decoration: none; font-size: 15px; }
+
+/* Tarjeta principal: degradado de la paleta con brillo de vidrio */
+.hero {
+  border-radius: 28px; padding: 20px 20px 18px; background: var(--ds-hero); color: var(--ds-hero-ink);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38), inset 0 -1px 0 rgba(14, 27, 51, 0.16), 0 16px 34px rgba(41, 80, 244, 0.26);
+}
+.hero::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 38%); }
+.hero-mark, .hero-art { opacity: 0.12; }
+.hero .eyebrow, .hero-note { color: var(--ds-hero-ink-2); }
+.hero-btn, .hero .chip, .hero button.ghost {
+  background: var(--ds-hero-glass); border: 0.5px solid rgba(255, 255, 255, 0.45); color: #fff;
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+.hero-cta { border-radius: var(--ds-r-pill); background: #fff; color: var(--ds-b1); font-weight: 700; padding: 0 20px; box-shadow: 0 6px 16px rgba(14, 27, 51, 0.2); }
+.total { font-family: var(--ds-font-round); font-weight: 700; letter-spacing: -0.025em; }
+.hero-stats { border-top-color: var(--ds-hero-line); }
+.hero-stats dt { color: var(--ds-hero-ink-2); }
+
+/* Encabezados de sección */
+.sec-head h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.025em; }
+.sync { color: var(--ds-ink-2); }
+
+/* Listas agrupadas (estilo Ajustes de iOS) */
+.list, .steps {
+  gap: 0; background: var(--ds-surface); border-radius: var(--ds-r-card); overflow: hidden; box-shadow: var(--ds-shadow-1);
+}
+.row, .step {
+  position: relative; border: 0; border-radius: 0; background: transparent; min-height: 60px; padding: 11px 16px 11px 14px;
+}
+.row:active, .step:active { background: var(--ds-fill); }
+.row.old { background: transparent; opacity: 0.62; }
+.list > li + li > .row::before, .steps > li + li > .step::before {
+  content: ""; position: absolute; top: 0; right: 0; left: 64px; border-top: 0.5px solid var(--ds-line-2);
+}
+.ico { width: 38px; height: 38px; background: var(--ds-fill); color: var(--ds-ink-2); }
+.ico.in { background: var(--ds-pos-soft); color: var(--ds-pos); }
+.ico.auto { background: var(--ds-tint-soft); color: var(--ds-tint); }
+.store { font-weight: 600; }
+.meta, .run { color: var(--ds-ink-2); }
+.amt { font-weight: 600; }
+.amt.in { color: var(--ds-pos); }
+.tag { background: var(--ds-tint-soft); color: var(--ds-tint); }
+.step-n { background: var(--ds-tint-soft); color: var(--ds-tint); }
+.step.done .step-n { background: var(--ds-pos-soft); color: var(--ds-pos); }
+.step-t span { color: var(--ds-ink-2); }
+.anchor { color: var(--ds-ink-3); padding: 8px 16px; }
+.anchor::before, .anchor::after { border-top: 0.5px solid var(--ds-line-2); }
+.empty { border: 0; border-radius: var(--ds-r-card); background: var(--ds-surface); box-shadow: var(--ds-shadow-1); color: var(--ds-ink-2); padding: 18px; }
+.foot { color: var(--ds-ink-3); }
+
+/* Filtros en cápsula */
+.chip { border: 0; background: var(--ds-fill); color: var(--ds-ink); font-weight: 600; min-height: 36px; padding: 0 15px; }
+.chip[aria-pressed="true"] { background: var(--ds-btn); color: #fff; }
+
+/* Datos y respaldo */
+.backup { border: 0; border-radius: var(--ds-r-card); background: var(--ds-surface); box-shadow: var(--ds-shadow-1); }
+.backup textarea, .field textarea { border: 0; border-radius: var(--ds-r-field); background: var(--ds-surface-2); }
+
+/* Hojas (sheets) */
+.backdrop { background: var(--ds-scrim); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.panel {
+  background: var(--ds-surface); border-radius: var(--ds-r-sheet) var(--ds-r-sheet) 0 0; padding-top: 30px;
+  box-shadow: 0 -10px 40px rgba(14, 27, 51, 0.18); animation: ds-rise 0.28s cubic-bezier(0.2, 0.9, 0.25, 1);
+}
+.panel::before { content: ""; position: absolute; top: 8px; left: 50%; width: 38px; height: 5px; margin-left: -19px; border-radius: 3px; background: var(--ds-line-2); }
+.panel h2 { font-size: 24px; font-weight: 700; }
+.panel .sub { color: var(--ds-ink-2); }
+.field > span { font-size: 13px; font-weight: 600; color: var(--ds-ink-2); padding-left: 4px; }
+.field input[type="date"], .field input[type="time"], .field input[type="text"], .field input[type="url"], .field input[type="number"], .field input:not([type]), .field select {
+  border: 1.5px solid transparent; border-radius: var(--ds-r-field); background: var(--ds-surface-2); min-height: 50px;
+}
+.field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--ds-tint); box-shadow: 0 0 0 4px var(--ds-tint-soft); }
+.price-wrap b { color: var(--ds-ink-3); }
+
+/* Control segmentado en cápsula */
+.seg { background: var(--ds-fill); border-radius: var(--ds-r-pill); padding: 4px; gap: 4px; }
+.seg button { border-radius: var(--ds-r-pill); min-height: 40px; color: var(--ds-ink-2); }
+.seg button[aria-pressed="true"] { background: var(--ds-surface); color: var(--ds-ink); box-shadow: 0 2px 8px rgba(14, 27, 51, 0.12), 0 0 0 0.5px rgba(14, 27, 51, 0.04); }
+
+/* Avisos y notas */
+.err { border-radius: var(--ds-r-field); background: var(--ds-neg-soft); color: var(--ds-neg); }
+.note { border-radius: var(--ds-r-field); background: var(--ds-tint-soft); color: var(--ds-ink); }
+.found li, .mails li { border-radius: 14px; background: var(--ds-surface-2); }
+.guide li::before { background: var(--ds-tint-soft); color: var(--ds-tint); }
+.peek summary, .how summary { color: var(--ds-tint); }
+.how summary { color: var(--ds-ink); }
+.raw { background: var(--ds-surface-2); border-radius: 12px; }
+.mono { background: var(--ds-fill); font-family: var(--ds-font-mono); }
+
+/* Aviso flotante de vidrio */
+.toast {
+  border-radius: var(--ds-r-pill); background: rgba(14, 27, 51, 0.86); color: #fff; padding: 8px 20px;
+  -webkit-backdrop-filter: var(--ds-glass-blur); backdrop-filter: var(--ds-glass-blur);
+  box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.25), 0 10px 30px rgba(14, 27, 51, 0.3);
+}
+/* Tarjetas secundarias (Master: por tarjeta, cuotas; plegables) */
+.tile, .cq { border: 0; border-radius: 20px; background: var(--ds-surface); box-shadow: var(--ds-shadow-1); }
+.fold { border: 0; border-radius: var(--ds-r-card); background: var(--ds-surface); box-shadow: var(--ds-shadow-1); }
+.stepper button, .step-val { border: 0; background: var(--ds-surface-2); border-radius: var(--ds-r-field); }
+.period { border-top: 0.5px solid var(--ds-line-2); }
+.linkrow { border: 0; border-radius: var(--ds-r-card); background: var(--ds-surface); box-shadow: var(--ds-shadow-1); min-height: 64px; padding: 12px 14px 12px 12px; }
+.linkrow:active { background: var(--ds-surface-2); }
+.linkrow > svg { color: var(--ds-ink-3); }
+.mark.sm { width: 40px; height: 40px; border-radius: 11px; }
+.num { background: var(--ds-tint-soft); color: var(--ds-tint); }
+.mark.app-icon { display: block; padding: 0; background: none; object-fit: cover; border-radius: 23%; box-shadow: 0 0 0 0.5px rgba(14, 27, 51, 0.08), 0 4px 12px rgba(41, 80, 244, 0.25); }
+.panel .btn.ghost { background: var(--ds-fill); box-shadow: none; }
+/*DS:COMP:END*/
+/*DS:APP:START*/
+
+/* ── Cepillos: tarjeta principal con los dos cepillos, desgaste por día, aviso y notas ── */
+:root { --c-casa: var(--ds-chart-1); --c-ofi: var(--ds-chart-3); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --c-ofi: var(--ds-chart-4); } }
+:root[data-theme="dark"] { --c-ofi: var(--ds-chart-4); }
+
+.hero { position: relative; overflow: hidden; padding: 18px 14px 16px; }
+.hero > * { position: relative; z-index: 1; }
+.duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.col { min-width: 0; display: flex; flex-direction: column; align-items: center; text-align: center; }
+canvas.brush { display: block; width: 100%; max-width: 150px; aspect-ratio: 200 / 300; cursor: pointer; touch-action: manipulation; transform-origin: 50% 96%; }
+canvas.brush.wobble { animation: wobble 0.5s cubic-bezier(0.3, 1.6, 0.5, 1); }
+@keyframes wobble { 0% { transform: rotate(0); } 25% { transform: rotate(-2.4deg); } 55% { transform: rotate(1.6deg); } 80% { transform: rotate(-0.6deg); } 100% { transform: rotate(0); } }
+.who { margin-top: 4px; padding: 4px 14px; border-radius: 999px; background: var(--ds-hero-glass); border: 0.5px solid rgba(255, 255, 255, 0.45); font-size: 14px; font-weight: 600; letter-spacing: -0.005em; }
+.pct { margin-top: 8px; font-family: var(--ds-font-round); font-weight: 700; line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.pct b { font-size: 58px; font-weight: 700; }
+.pct span { margin-left: 2px; font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
+.pct.word b { font-size: 30px; letter-spacing: -0.03em; }
+.pct-lbl { margin-top: 4px; font-size: 13px; color: var(--ds-hero-ink-2); }
+.until { align-self: stretch; margin-top: 10px; padding-top: 8px; border-top: 0.5px solid var(--ds-hero-line); display: flex; flex-direction: column; gap: 1px; }
+.until .lbl { font-size: 13px; color: var(--ds-hero-ink-2); }
+.until strong { font-size: 16px; font-weight: 600; line-height: 1.25; }
+.col-empty { margin-top: 10px; font-size: 14px; color: var(--ds-hero-ink-2); }
+
+.banner { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 24px; background: var(--b-bg); }
+.banner + .banner { margin-top: 10px; }
+.banner.warn { --b-bg: var(--warn-bg); --b-fg: var(--warn); }
+.banner.crit { --b-bg: var(--over-bg); --b-fg: var(--over); }
+.bn-ic { width: 32px; height: 32px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--b-fg); color: var(--ds-bg); }
+.banner.crit .bn-ic { animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 var(--b-fg); } 50% { box-shadow: 0 0 0 6px transparent; } }
+.bn-txt { min-width: 0; padding-top: 4px; }
+.bn-txt strong { display: block; font-size: 16px; line-height: 1.25; }
+.bn-txt span { display: block; margin-top: 2px; font-size: 15px; color: var(--ds-ink-2); }
+
+.card { background: var(--ds-surface); border-radius: var(--ds-r-card); box-shadow: var(--ds-shadow-1); padding: 16px 16px 14px; }
+.card .sec-head { margin-bottom: 0; }
+.wk { margin-top: 12px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.wd { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 0 8px; border-radius: 14px; }
+.wd.today { background: var(--ds-tint-soft); }
+.pair { height: 76px; display: flex; align-items: flex-end; gap: 3px; }
+.bar { width: 10px; border-radius: 5px 5px 2px 2px; }
+.bar.c { background: var(--c-casa); }
+.bar.o { background: var(--c-ofi); }
+.bar.zero { height: 3px; opacity: 0.45; border-radius: 2px; }
+.wl { font-size: 12px; font-weight: 600; color: var(--ds-ink-2); }
+.wd.today .wl { color: var(--ds-tint); }
+.leg { margin: 10px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: var(--ds-ink-2); }
+.leg li { display: flex; align-items: flex-start; gap: 8px; }
+.leg i { width: 10px; height: 10px; margin-top: 5px; border-radius: 3px; flex: none; }
+.leg i.c { background: var(--c-casa); }
+.leg i.o { background: var(--c-ofi); }
+.leg strong { color: var(--ds-ink); font-weight: 600; }
+
+.seg { display: flex; }
+.seg button { flex: 1; border: 0; background: transparent; font-weight: 600; font-size: 16px; }
+.badge.o { background: var(--ds-fill-2); color: var(--ds-ink); }
+.note { margin: 0; padding: 0; border-radius: 0; background: none; font-size: 14px; color: var(--ds-ink-2); }
+.note strong { color: var(--ds-ink); }
+.row { grid-template-columns: 48px minmax(0, 1fr) 20px; gap: 10px; }
+.dur b { font-size: 24px; }
+.list > li + li > .row::before { left: 72px; }
+.big-cta { width: 100%; }
+.how p { margin: 0 0 8px; font-size: 14px; color: var(--ds-ink-2); }
+.how p:last-child { margin-bottom: 0; }
+.how strong { color: var(--ds-ink); font-weight: 600; }
+@media (max-width: 360px) { .pct b { font-size: 48px; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+/*DS:APP:END*/
+/*PANEL:CSS:START*/
+/* Tarjeta «Panel Casa», igual en todas las apps conectadas al panel */
+.pc-host { max-width: 480px; margin: -20px auto calc(40px + env(safe-area-inset-bottom, 0px)); }
+.pc { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px 16px; border-radius: 24px; background: var(--ds-surface); box-shadow: var(--ds-shadow-1); color: var(--ds-ink); font-family: var(--ds-font); text-align: left; }
+.pc-head { display: flex; align-items: center; gap: 12px; }
+.pc-head > div { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.pc-head b { font-size: 17px; font-weight: 600; letter-spacing: -0.015em; }
+.pc-ic { width: 32px; height: 32px; flex: none; display: grid; place-items: center; border-radius: 9px; background: linear-gradient(150deg, #7AA4F7 0%, #4D78F3 46%, #2950F4 100%); color: #fff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+.pc-ic svg { display: block; }
+.pc-st { font-size: 13px; line-height: 1.3; color: var(--ds-ink-2); }
+.pc-ok { color: var(--ds-pos); font-weight: 600; }
+.pc-bad { color: var(--ds-neg); font-weight: 600; }
+.pc-p { margin: 0; font-size: 15px; line-height: 1.38; color: var(--ds-ink-2); }
+.pc-btns { display: flex; gap: 10px; }
+.pc-btn { flex: 1; min-width: 0; min-height: 42px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--ds-tint-soft); color: var(--ds-tint); font: 600 15px/1 var(--ds-font); letter-spacing: -0.01em; cursor: pointer; -webkit-appearance: none; appearance: none; transition: transform 0.16s ease; }
+.pc-btn:active { transform: scale(0.97); }
+.pc-main { background: var(--ds-btn); color: var(--ds-on-btn); box-shadow: var(--ds-shadow-btn); }
+.pc-danger { background: var(--ds-neg-soft); color: var(--ds-neg); }
+.pc-armed { background: var(--ds-neg); color: #fff; }
+.pc-ta { display: block; width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1.5px solid transparent; border-radius: 14px; background: var(--ds-surface-2); color: var(--ds-ink); font: 13px/1.4 var(--ds-font-mono); resize: vertical; -webkit-appearance: none; appearance: none; }
+.pc-ta:focus { outline: none; border-color: var(--ds-tint); box-shadow: 0 0 0 4px var(--ds-tint-soft); }
+.pc-err { margin: 0; padding: 10px 12px; border-radius: 14px; background: var(--ds-neg-soft); color: var(--ds-neg); font-size: 15px; font-weight: 600; }
+.pc-err[hidden] { display: none; }
+/*PANEL:CSS:END*/
+</style>
+<style>/* Sin zoom con los dedos ni con doble toque: se usa como app instalada, no como página */ html { touch-action: pan-x pan-y; }</style>
+</head>
+<body>
+
+<main class="app" id="app">
+  <header class="top">
+    <img class="mark app-icon" src="icons/apple-touch-icon.png?v=ds1" alt="">
+    <div><div class="eyebrow">Cepillos de dientes</div><h1>Cepillos</h1></div>
+  </header>
+
+  <section class="hero" aria-live="polite">
+    <div class="duo">
+      <article class="col" id="colCasa"><canvas class="brush" id="cvCasa" role="img" aria-label="Cepillo de casa"></canvas><div class="txt" id="txtCasa"></div></article>
+      <article class="col" id="colOficina"><canvas class="brush" id="cvOficina" role="img" aria-label="Cepillo de la oficina"></canvas><div class="txt" id="txtOficina"></div></article>
+    </div>
+  </section>
+
+  <div id="banner"></div>
+
+  <button class="btn primary big big-cta" id="btnNew" type="button">Registrar cepillo nuevo</button>
+  <p class="hint">Toca un cepillo para lavarte los dientes con espuma.</p>
+
+  <section class="card" id="week" aria-labelledby="weekT"></section>
+
+  <section id="history"></section>
+
+  <details class="backup how">
+    <summary>Cómo se calcula</summary>
+    <p>Te lavas los dientes <strong>3 veces al día</strong> (mañana, mediodía y noche). Cada cepillo dura <strong>180 lavados</strong>.</p>
+    <p>Los <strong>lunes, martes y jueves</strong> el lavado del mediodía es en la oficina, con el otro cepillo. Esos días el cepillo de casa suma 2 lavados y el de la oficina, 1; el resto de los días, el de casa suma 3.</p>
+    <p>El desgaste se cuenta solo desde la fecha en que pusiste cada cepillo: no hay que anotar cada lavado. Si un día no te lavas los dientes con alguno, corrige la fecha del cepillo para compensar.</p>
+  </details>
+
+  <details class="backup" id="backup">
+    <summary>Respaldo de datos</summary>
+    <p class="muted">Los datos viven solo en este dispositivo. Copia el respaldo para guardarlo o pégalo aquí para restaurarlo.</p>
+    <textarea id="bkText" rows="5" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Pega aquí un respaldo para restaurarlo"></textarea>
+    <div class="bk-actions">
+      <button class="btn ghost" type="button" data-act="bk-copy">Copiar respaldo</button>
+      <button class="btn ghost" type="button" data-act="bk-restore">Restaurar desde el texto</button>
+    </div>
+  </details>
+</main>
+<div class="pc-host" id="panel-casa"></div>
+<div class="sheet" id="sheet" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+/*PANEL:START*/
+/* Panel Casa: publica en el buzón privado de GitHub un resumen de esta app, para que Panel Casa lo muestre.
+   Es el mismo código en Pagos del mes, Balón de gas, Mi cápsula diaria, Mesadas y Sábanas. No se edita en la app:
+   se copia desde casa/herramientas/panel-casa.js con  python3 herramientas/conectar-apps.py <carpeta de las apps>
+   Uso: PanelCasa.init({ app, title, mount, summary }) al abrir la app y PanelCasa.changed() cada vez que se guarda. */
+var PanelCasa = (function () {
+  'use strict';
+  var KEY = 'panel-casa', REPO_RE = /^[\w.-]+\/[\w.-]+$/;
+  var opts = null, cfg = read(), timer = 0, busy = false, again = false, armed = false, editing = false;
+
+  function read() {
+    try {
+      var c = JSON.parse(localStorage.getItem(KEY) || 'null');
+      return c && REPO_RE.test(String(c.r || '')) && typeof c.t === 'string' && c.t.length >= 20 ? c : null;
+    } catch (e) { return null; }
+  }
+  function write() { try { if (cfg) localStorage.setItem(KEY, JSON.stringify(cfg)); else localStorage.removeItem(KEY); } catch (e) {} }
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function when(ms) {
+    var d = new Date(ms), n = new Date(), p = function (x) { return (x < 10 ? '0' : '') + x; };
+    var y = new Date(n.getFullYear(), n.getMonth(), n.getDate() - 1);
+    var day = d.toDateString() === n.toDateString() ? 'hoy' : d.toDateString() === y.toDateString() ? 'ayer'
+      : d.getDate() + ' ' + ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'][d.getMonth()];
+    return day + ', ' + p(d.getHours()) + ':' + p(d.getMinutes());
+  }
+
+  /* ---------- Publicar ---------- */
+  async function gh(method, path, body, keep, conn) {
+    var c = conn || cfg;
+    var r = await fetch('https://api.github.com/repos/' + c.r + path, {
+      method: method, cache: 'no-store', keepalive: !!keep,
+      headers: { Authorization: 'Bearer ' + c.t, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+      body: body ? JSON.stringify(body) : undefined
+    });
+    if (!r.ok) { var e = new Error('GitHub ' + r.status); e.status = r.status; throw e; }
+    return r.status === 204 ? null : r.json();
+  }
+  // El resumen va en la descripción de un hito cerrado con el nombre de la app (por ejemplo «Gas · panel»)
+  async function send(desc, retried) {
+    if (!cfg.m) {
+      var list = await gh('GET', '/milestones?state=all&per_page=100');
+      var f = (Array.isArray(list) ? list : []).filter(function (x) { return x && x.title === opts.title; })[0];
+      if (!f) { cfg.m = (await gh('POST', '/milestones', { title: opts.title, state: 'closed', description: desc })).number; return; }
+      cfg.m = f.number;
+    }
+    try { await gh('PATCH', '/milestones/' + cfg.m, { description: desc }, true); }
+    catch (e) { if (e.status === 404 && !retried) { cfg.m = 0; return send(desc, true); } throw e; }
+  }
+  async function flush() {
+    clearTimeout(timer); timer = 0;
+    if (!cfg || !opts) return;
+    if (busy) { again = true; return; }
+    var data;
+    try { data = opts.summary(); } catch (e) { data = null; }
+    if (!data) return;
+    var body = JSON.stringify(data);
+    if (body === cfg.h && !cfg.err) return;          // nada cambió desde la última vez
+    busy = true;
+    var full = { app: opts.app, v: 1, at: Date.now() };
+    Object.keys(data).forEach(function (k) { full[k] = data[k]; });
+    try { await send(JSON.stringify(full)); cfg.h = body; cfg.ok = full.at; cfg.err = 0; }
+    catch (e) { cfg.err = (e && e.status) || 1; }
+    if (cfg) write();
+    busy = false; paint();
+    if (again) { again = false; flush(); }
+  }
+  function changed() { if (cfg && opts) { clearTimeout(timer); timer = setTimeout(flush, 1200); } }
+
+  /* ---------- Vista: tarjeta «Panel Casa» al final de la app ---------- */
+  var I_HOUSE = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M3.5 11.2L12 4l8.5 7.2V20a1 1 0 0 1-1 1h-5v-5.5h-5V21h-5a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>';
+  function status() {
+    if (!cfg) return '';
+    if (busy) return '<span class="pc-st">Publicando…</span>';
+    if (cfg.err === 401) return '<span class="pc-st pc-bad">El token venció: pega un código nuevo</span>';
+    if (cfg.err === 403) return '<span class="pc-st pc-bad">El token no puede escribir en el buzón</span>';
+    if (cfg.err === 404) return '<span class="pc-st pc-bad">No se encontró el buzón</span>';
+    if (cfg.err) return '<span class="pc-st pc-bad">Sin conexión: se publicará al próximo cambio</span>';
+    return '<span class="pc-st pc-ok">' + (cfg.ok ? 'Publicó ' + esc(when(cfg.ok)) : 'Conectada') + '</span>';
+  }
+  function paint() {
+    var el = opts && opts.mount;
+    if (!el) return;
+    var h = '<section class="pc" aria-label="Panel Casa"><div class="pc-head"><span class="pc-ic">' + I_HOUSE + '</span><div><b>Panel Casa</b>' +
+      (cfg ? status() : '<span class="pc-st">Sin conectar</span>') + '</div></div>';
+    if (cfg && !editing) {
+      h += '<p class="pc-p">Lo que anotas aquí se ve también en Panel Casa.</p><div class="pc-btns">' +
+        '<button type="button" class="pc-btn" data-pc="now">Publicar ahora</button>' +
+        '<button type="button" class="pc-btn pc-danger' + (armed ? ' pc-armed' : '') + '" data-pc="off">' + (armed ? 'Toca de nuevo' : 'Desconectar') + '</button></div>';
+    } else {
+      h += '<p class="pc-p">Para ver esta app en Panel Casa: en el panel, abre Conexiones y toca «Copiar código para las apps». Luego vuelve aquí.</p>';
+      if (editing) {
+        h += '<textarea class="pc-ta" id="pc-ta" rows="3" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Pega aquí el código (empieza con CASA1.)"></textarea>' +
+          '<div class="pc-btns"><button type="button" class="pc-btn pc-main" data-pc="save">Conectar</button><button type="button" class="pc-btn" data-pc="cancel">Cancelar</button></div>';
+      } else {
+        h += '<div class="pc-btns"><button type="button" class="pc-btn pc-main" data-pc="paste">Pegar código</button></div>';
+      }
+      h += '<p class="pc-err" id="pc-err" hidden></p>';
+    }
+    el.innerHTML = h + '</section>';
+  }
+  function parseCode(text) {
+    var m = /CASA1\.([A-Za-z0-9+\/=]+)/.exec(String(text || ''));
+    if (!m) return null;
+    try {
+      var o = JSON.parse(atob(m[1]));
+      return o && REPO_RE.test(String(o.r || '')) && typeof o.t === 'string' && o.t.trim().length >= 20 ? { r: String(o.r), t: o.t.trim() } : null;
+    } catch (e) { return null; }
+  }
+  function connect(text) {
+    var c = parseCode(text);
+    if (!c) return false;
+    cfg = { r: c.r, t: c.t, m: 0, h: '', ok: 0, err: 0 };
+    editing = false; write(); paint(); flush();
+    return true;
+  }
+  function showErr(msg) { var e = document.getElementById('pc-err'); if (e) { e.textContent = msg; e.hidden = false; } }
+  function onClick(ev) {
+    var b = ev.target.closest && ev.target.closest('[data-pc]');
+    if (!b || !opts || !opts.mount.contains(b)) return;
+    var a = b.getAttribute('data-pc');
+    if (a === 'paste') {
+      // Primero intenta leer el portapapeles; si el iPhone no lo permite, muestra un campo para pegar
+      var manual = function () { editing = true; paint(); var t = document.getElementById('pc-ta'); if (t) t.focus(); };
+      if (navigator.clipboard && navigator.clipboard.readText) {
+        navigator.clipboard.readText().then(function (txt) { if (!connect(txt)) manual(); }, manual);
+      } else manual();
+    } else if (a === 'save') {
+      var t = document.getElementById('pc-ta');
+      if (!connect(t ? t.value : '')) showErr('Ese no es el código del panel. Cópialo de nuevo en Panel Casa → Conexiones.');
+    } else if (a === 'cancel') { editing = false; paint(); }
+    else if (a === 'now') { if (cfg) { cfg.h = ''; flush(); paint(); } }
+    else if (a === 'off') {
+      if (!armed) { armed = true; paint(); setTimeout(function () { armed = false; paint(); }, 4000); return; }
+      armed = false;
+      var old = cfg; cfg = null; write(); paint();
+      // El hito queda vacío para que el panel no siga mostrando datos viejos
+      if (old && old.m) gh('PATCH', '/milestones/' + old.m, { description: '' }, null, false, old).catch(function () {});
+    }
+  }
+
+  function init(o) {
+    opts = o;
+    if (!opts || typeof opts.summary !== 'function') return;
+    if (opts.mount) { paint(); opts.mount.addEventListener('click', onClick); }
+    if (cfg) setTimeout(flush, 1500);
+    // Al salir de la app se publica lo que esté pendiente
+    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden' && timer) flush(); });
+  }
+  return { init: init, changed: changed };
+})();
+/*PANEL:END*/
+</script>
+<script>
+(function () {
+  'use strict';
+
+  var MES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  var DIA = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+  var LS_KEY = 'cepillos-registros';
+  var DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+  var reduced = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  /* Supuestos de uso (ver «Cómo se calcula»): 3 lavados al día, a estas horas.
+     Los días de oficina, el lavado del mediodía (índice 1) se hace con el cepillo de la oficina. */
+  var WASH_HOURS = [7, 13, 21];
+  var OFFICE_WASH = 1;
+  var OFFICE_DAYS = [1, 2, 4];          // lunes, martes y jueves
+  var BRUSHES = {
+    casa: { name: 'Casa', det: 'de casa', art: 'el cepillo de casa', cap: 180 },
+    oficina: { name: 'Oficina', det: 'de la oficina', art: 'el cepillo de la oficina', cap: 180 }
+  };
+  var ORDER = ['casa', 'oficina'];
+
+  var I_CHEV = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var I_WARN = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 7v6M12 17h.01" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>';
+
+  function $(id) { return document.getElementById(id); }
+  var bannerEl = $('banner'), weekEl = $('week'), histEl = $('history'), sheetEl = $('sheet'), toastEl = $('toast');
+
+  var regs = [];          // más nuevo primero: { id, b, date }
+  var sheet = null;       // { id|null, b }
+  var restoreArmed = false, delArmed = false;
+
+  /* ---------- Fechas y formatos ---------- */
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function dayKey(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function todayKey() { return dayKey(new Date()); }
+  function hourNow() { var d = new Date(); return d.getHours() + d.getMinutes() / 60; }
+  function utc(k) { var p = k.split('-'); return Date.UTC(+p[0], +p[1] - 1, +p[2]); }
+  function diff(a, b) { return Math.round((utc(b) - utc(a)) / 86400000); }
+  function addDays(k, n) { var d = new Date(utc(k) + n * 86400000); return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()); }
+  function dow(k) { return new Date(utc(k)).getUTCDay(); }
+  function fmt(k) { var p = k.split('-'); return (+p[2]) + ' ' + MES[+p[1] - 1] + ' ' + p[0]; }
+  function fmtShort(k) { var p = k.split('-'); return (+p[2]) + ' ' + MES[+p[1] - 1]; }
+  function plural(n, s, p) { return n === 1 ? s : p; }
+  function genId() { return 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+  function validDate(k) { return DATE_RE.test(k) && fmt(k) && addDays(k, 0) === k; }
+  function pct1(x) { var s = (Math.round(x * 10) / 10).toFixed(1).replace('.', ','); return s.replace(/,0$/, ''); }
+
+  /* ---------- Lavados y desgaste ---------- */
+  function isOffice(k) { return OFFICE_DAYS.indexOf(dow(k)) >= 0; }
+  // Lavados de ese día con ese cepillo; si se indica una hora, solo los que ya pasaron
+  function washes(k, brush, upTo) {
+    var n = 0, ofi = isOffice(k);
+    for (var i = 0; i < WASH_HOURS.length; i++) {
+      if (upTo != null && WASH_HOURS[i] > upTo) continue;
+      if ((brush === 'oficina') === (ofi && i === OFFICE_WASH)) n++;
+    }
+    return n;
+  }
+  // Lavados acumulados desde el día en que se puso el cepillo hasta ahora
+  function worn(brush, start, today, hour) {
+    var n = 0, k = start;
+    while (k < today) { n += washes(k, brush, null); k = addDays(k, 1); }
+    if (start <= today) n += washes(today, brush, hour);
+    return n;
+  }
+  // Día en que el cepillo completa su cupo de lavados
+  function dueDate(brush, start) {
+    var cap = BRUSHES[brush].cap, n = 0, k = start;
+    for (var i = 0; i < 4000; i++) { n += washes(k, brush, null); if (n >= cap) return k; k = addDays(k, 1); }
+    return k;
+  }
+  function current(brush) { for (var i = 0; i < regs.length; i++) if (regs[i].b === brush) return regs[i]; return null; }
+  function stats(brush) {
+    var cur = current(brush);
+    if (!cur) return null;
+    var today = todayKey(), hour = hourNow(), cap = BRUSHES[brush].cap;
+    var done = worn(brush, cur.date, today, hour), due = dueDate(brush, cur.date);
+    return {
+      cur: cur, cap: cap, done: done, due: due, left: diff(today, due),
+      frac: Math.max(0, Math.min(1, done / cap)),
+      todayDone: washes(today, brush, hour), todayAll: washes(today, brush, null)
+    };
+  }
+
+  /* ---------- Datos ---------- */
+  function norm(r) {
+    if (!r) return null;
+    var date = String(r.date || ''), b = String(r.b || '');
+    if (!BRUSHES[b] || !validDate(date) || date > todayKey()) return null;
+    return { id: String(r.id || '').replace(/[^\w-]/g, '') || genId(), b: b, date: date };
+  }
+  function sortRegs() { regs.sort(function (a, b) { return a.date < b.date ? 1 : a.date > b.date ? -1 : (a.b < b.b ? -1 : 1); }); }
+  function cleanList(arr) {
+    var list = [], seen = {};
+    arr.forEach(function (r) { var n = norm(r); if (n && !seen[n.b + n.date]) { seen[n.b + n.date] = 1; list.push(n); } });
+    return list;
+  }
+  function load() {
+    var list = [];
+    try { var raw = localStorage.getItem(LS_KEY); if (raw) list = cleanList(JSON.parse(raw)); } catch (e) {}
+    regs = list; sortRegs();
+  }
+  function save() { try { localStorage.setItem(LS_KEY, JSON.stringify(regs)); } catch (e) {} if (window.PanelCasa) PanelCasa.changed(); }
+  function find(id) { for (var i = 0; i < regs.length; i++) if (regs[i].id === id) return regs[i]; return null; }
+
+  function toast(msg) {
+    toastEl.textContent = msg; toastEl.hidden = false;
+    clearTimeout(toast.t); toast.t = setTimeout(function () { toastEl.hidden = true; }, 3200);
+  }
+
+  /* ---------- Vistas ---------- */
+  function renderCol(b, s) {
+    var el = $('txt' + (b === 'casa' ? 'Casa' : 'Oficina')), nm = BRUSHES[b].name;
+    var h = '<div class="who">' + nm + '</div>';
+    if (!s) {
+      el.innerHTML = h + '<p class="col-empty">Sin cepillo registrado</p>';
+      return;
+    }
+    var w = Math.round(s.frac * 100), lbl, left;
+    if (s.left > 0) left = '<div class="until"><span class="lbl">Faltan</span><strong>' + s.left + ' ' + plural(s.left, 'día', 'días') + '</strong></div>';
+    else if (s.left === 0) left = '<div class="until"><span class="lbl">Cambio</span><strong>Hoy toca cambiarlo</strong></div>';
+    else left = '<div class="until"><span class="lbl">Vencido hace</span><strong>' + (-s.left) + ' ' + plural(-s.left, 'día', 'días') + '</strong></div>';
+    var hoy = s.todayAll ? s.todayDone + ' de ' + s.todayAll + ' ' + plural(s.todayAll, 'lavado', 'lavados') : 'No se usa hoy';
+    lbl = s.done + ' de ' + s.cap + ' lavados';
+    h += '<div class="pct"><b>' + w + '</b><span>%</span></div><div class="pct-lbl">de desgaste</div><div class="pct-lbl">' + lbl + '</div>' + left +
+      '<div class="until"><span class="lbl">Cambio el</span><strong>' + fmt(s.due) + '</strong></div>' +
+      '<div class="until"><span class="lbl">Hoy</span><strong>' + hoy + '</strong></div>';
+    el.innerHTML = h;
+  }
+
+  function renderBanner(stats2) {
+    var h = '';
+    ORDER.forEach(function (b) {
+      var s = stats2[b];
+      if (!s || s.left > 14) return;
+      var cls = s.left <= 7 ? 'crit' : 'warn', t, sub, art = BRUSHES[b].art, Art = art.charAt(0).toUpperCase() + art.slice(1);
+      if (s.left > 0) { t = 'Faltan ' + s.left + ' ' + plural(s.left, 'día', 'días') + ' para cambiar ' + art; sub = 'Ten listo un cepillo nuevo.'; }
+      else if (s.left === 0) { t = 'Hoy toca cambiar ' + art; sub = 'Cuando lo cambies, registra el cepillo nuevo.'; }
+      else { t = Art + ' lleva ' + (-s.left) + ' ' + plural(-s.left, 'día', 'días') + ' vencido'; sub = 'Cámbialo y registra la fecha del cepillo nuevo.'; }
+      h += '<div class="banner ' + cls + '" role="status"><span class="bn-ic">' + I_WARN + '</span><div class="bn-txt"><strong>' + t + '</strong><span>' + sub + '</span></div></div>';
+    });
+    bannerEl.innerHTML = h;
+  }
+
+  // Desgaste que suma cada día de la semana, para cada cepillo (en % del cepillo)
+  function renderWeek() {
+    var today = todayKey(), td = dow(today), order = [1, 2, 3, 4, 5, 6, 0], L = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
+    var cap = BRUSHES.casa.cap, max = 0, tot = { casa: 0, oficina: 0 };
+    var cols = order.map(function (d) {
+      var k = addDays(today, ((d - td + 7) % 7)), v = { d: d, today: d === td, c: washes(k, 'casa', null), o: washes(k, 'oficina', null) };
+      max = Math.max(max, v.c, v.o); tot.casa += v.c; tot.oficina += v.o;
+      return v;
+    });
+    var cNormal = 0, cOfi = 0, oOfi = 0;
+    cols.forEach(function (v) { if (OFFICE_DAYS.indexOf(v.d) >= 0) { cOfi = v.c; oOfi = v.o; } else cNormal = v.c; });
+    var h = '<div class="sec-head"><h2 id="weekT">Desgaste por día</h2><span class="muted">de ' + cap + ' lavados</span></div><div class="wk" role="img" aria-label="Desgaste que suma cada cepillo en cada día de la semana">';
+    cols.forEach(function (v) {
+      var hc = Math.max(0, Math.round(v.c / max * 72)), ho = Math.round(v.o / max * 72);
+      h += '<div class="wd' + (v.today ? ' today' : '') + '"><div class="pair"><span class="bar c" style="height:' + hc + 'px"></span>' +
+        '<span class="bar o' + (v.o ? '' : ' zero') + '"' + (v.o ? ' style="height:' + ho + 'px"' : '') + '></span></div><span class="wl">' + L[v.d] + '</span></div>';
+    });
+    h += '</div><ul class="leg">' +
+      '<li><i class="c"></i><span><strong>Casa:</strong> ' + pct1(cNormal / cap * 100) + ' % al día' + (cOfi !== cNormal ? ' (' + pct1(cOfi / cap * 100) + ' % lunes, martes y jueves)' : '') + '. ' + tot.casa + ' lavados por semana.</span></li>' +
+      '<li><i class="o"></i><span><strong>Oficina:</strong> ' + pct1(oOfi / cap * 100) + ' % lunes, martes y jueves; el resto, nada. ' + tot.oficina + ' lavados por semana.</span></li></ul>';
+    weekEl.innerHTML = h;
+  }
+
+  function renderHistory() {
+    if (!regs.length) { histEl.innerHTML = ''; return; }
+    var today = todayKey();
+    var h = '<div class="sec-head"><h2>Historial</h2><span class="muted">' + regs.length + ' ' + plural(regs.length, 'cepillo', 'cepillos') + '</span></div><ul class="list">';
+    regs.forEach(function (r) {
+      var next = null, i;
+      for (i = 0; i < regs.length; i++) if (regs[i].b === r.b && regs[i].date > r.date && (!next || regs[i].date < next)) next = regs[i].date;
+      var dur, range, meta, badge = '<span class="badge' + (r.b === 'oficina' ? ' o' : '') + '">' + BRUSHES[r.b].name + '</span>';
+      if (!next) {
+        var s = stats(r.b);
+        dur = Math.max(0, diff(r.date, today)); range = 'Desde el ' + fmt(r.date);
+        meta = badge + '<span>En uso · ' + s.done + ' de ' + s.cap + ' lavados</span>';
+      } else {
+        var last = addDays(next, -1), n = 0, k = r.date;
+        while (k <= last) { n += washes(k, r.b, null); k = addDays(k, 1); }
+        dur = diff(r.date, next); range = fmtShort(r.date) + ' ' + r.date.slice(0, 4) + ' – ' + fmt(next);
+        meta = badge + '<span>' + n + ' ' + plural(n, 'lavado', 'lavados') + ' de ' + BRUSHES[r.b].cap + '</span>';
+      }
+      h += '<li><button class="row" type="button" data-act="edit" data-id="' + r.id + '"><div class="dur"><b>' + dur + '</b><span>' + plural(dur, 'día', 'días') + '</span></div><div class="info"><span class="range">' + range + '</span><span class="meta">' + meta + '</span></div>' + I_CHEV + '</button></li>';
+    });
+    histEl.innerHTML = h + '</ul>';
+  }
+
+  function render() {
+    var st = { casa: stats('casa'), oficina: stats('oficina') };
+    ORDER.forEach(function (b) {
+      renderCol(b, st[b]);
+      brushes[b].set(st[b] ? st[b].frac : 0, !st[b]);
+      var s = st[b];
+      $('cv' + (b === 'casa' ? 'Casa' : 'Oficina')).setAttribute('aria-label', !s ? 'Cepillo ' + BRUSHES[b].det + ': sin registrar'
+        : 'Cepillo ' + BRUSHES[b].det + ': ' + Math.round(s.frac * 100) + ' % de desgaste, ' + (s.left > 0 ? 'faltan ' + s.left + ' ' + plural(s.left, 'día', 'días') + ' para cambiarlo' : s.left === 0 ? 'toca cambiarlo hoy' : 'cambio vencido'));
+    });
+    renderBanner(st); renderWeek(); renderHistory();
+  }
+
+  /* ---------- Hoja de registro ---------- */
+  function openSheet(id) {
+    var r = id ? find(id) : null;
+    sheet = { id: r ? r.id : null, b: r ? r.b : 'casa' }; delArmed = false;
+    var today = todayKey(), val = r ? r.date : today;
+    sheetEl.innerHTML = '<div class="backdrop" data-act="close"></div>' +
+      '<form class="panel" id="fForm" role="dialog" aria-modal="true" aria-labelledby="shT" tabindex="-1" novalidate>' +
+      '<h2 id="shT">' + (r ? 'Editar cepillo' : 'Cepillo nuevo') + '</h2>' +
+      '<p class="sub">' + (r ? 'Corrige el cepillo o la fecha en que lo pusiste.' : 'Elige el cepillo y anota la fecha en que lo pusiste.') + '</p>' +
+      '<div class="seg" role="group" aria-label="Cepillo">' + ORDER.map(function (b) {
+        return '<button type="button" data-act="pick" data-b="' + b + '" aria-pressed="' + (b === sheet.b) + '">' + BRUSHES[b].name + '</button>';
+      }).join('') + '</div>' +
+      '<label class="field"><span>Fecha del cambio</span><input type="date" id="fDate" value="' + val + '" max="' + today + '" required></label>' +
+      '<p class="note" id="fNote"></p><p class="err" id="fErr" hidden></p>' +
+      '<div class="stack"><button class="btn primary block" type="submit">Guardar</button>' +
+      (r ? '<button class="btn danger block" type="button" data-act="del">Eliminar registro</button>' : '') +
+      '<button class="btn ghost block" type="button" data-act="close">Cancelar</button></div></form>';
+    sheetEl.hidden = false; document.documentElement.classList.add('lock');
+    updNote();
+    $('fForm').focus();
+  }
+  function closeSheet() { sheet = null; sheetEl.hidden = true; sheetEl.innerHTML = ''; document.documentElement.classList.remove('lock'); }
+  function updNote() {
+    var v = $('fDate').value;
+    $('fNote').innerHTML = validDate(v) ? 'Cambio estimado: <strong>' + fmt(dueDate(sheet.b, v)) + '</strong> (' + BRUSHES[sheet.b].cap + ' lavados)' : '';
+  }
+  function submitSheet(e) {
+    e.preventDefault();
+    var v = $('fDate').value, err = $('fErr'), msg = '';
+    if (!validDate(v)) msg = 'Elige una fecha válida.';
+    else if (v > todayKey()) msg = 'La fecha no puede ser futura.';
+    else if (regs.some(function (r) { return r.b === sheet.b && r.date === v && r.id !== sheet.id; })) msg = 'Ya hay un cepillo ' + BRUSHES[sheet.b].det + ' registrado en esa fecha.';
+    if (msg) { err.textContent = msg; err.hidden = false; return; }
+    var wasNew = !sheet.id, r = sheet.id ? find(sheet.id) : null, b = sheet.b;
+    if (r) { r.date = v; r.b = b; } else regs.push({ id: genId(), b: b, date: v });
+    sortRegs(); save(); closeSheet(); render();
+    if (wasNew && current(b).date === v) { brushes[b].fresh(); toast('Cepillo registrado'); } else toast('Cambios guardados');
+  }
+  function removeReg(btn) {
+    if (!delArmed) { delArmed = true; btn.classList.add('armed'); btn.textContent = 'Toca de nuevo para eliminar'; return; }
+    regs = regs.filter(function (r) { return r.id !== sheet.id; });
+    save(); closeSheet(); render(); toast('Registro eliminado');
+  }
+
+  /* ---------- Respaldo ---------- */
+  function backupJson() { return JSON.stringify({ app: 'cepillos', version: 1, registros: regs.map(function (r) { return { id: r.id, b: r.b, date: r.date }; }) }); }
+  function backupCopy() {
+    var ta = $('bkText'), txt = backupJson(); ta.value = txt;
+    function fallback() { ta.focus(); ta.select(); try { document.execCommand('copy'); toast('Respaldo copiado'); } catch (e) { toast('Selecciona el texto y cópialo'); } }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(function () { toast('Respaldo copiado'); }, fallback); else fallback();
+  }
+  function backupRestore(btn) {
+    var raw = $('bkText').value.trim(), data;
+    if (!raw) { toast('Pega primero el texto del respaldo'); return; }
+    try { data = JSON.parse(raw); } catch (e) { toast('El texto no es un respaldo válido'); return; }
+    var arr = Array.isArray(data) ? data : data && Array.isArray(data.registros) ? data.registros : null;
+    if (!arr) { toast('El texto no es un respaldo válido'); return; }
+    var list = cleanList(arr);
+    if (!list.length) { toast('El respaldo no tiene cepillos válidos'); return; }
+    if (regs.length && !restoreArmed) { restoreArmed = true; btn.textContent = 'Toca de nuevo para reemplazar'; return; }
+    restoreArmed = false; btn.textContent = 'Restaurar desde el texto';
+    regs = list; sortRegs(); save(); render(); toast('Respaldo restaurado');
+  }
+
+  /* ---------- Los cepillos (canvas): vista desde arriba; las cerdas cambian de color y se abren con el uso ---------- */
+  var STOPS = [[0, 31, 71, 240], [0.3, 68, 112, 243], [0.55, 134, 170, 236], [0.78, 208, 214, 226], [1, 232, 226, 201]];
+  function wearColor(w) {
+    w = Math.max(0, Math.min(1, w));
+    for (var i = 1; i < STOPS.length; i++) {
+      if (w <= STOPS[i][0]) {
+        var a = STOPS[i - 1], b = STOPS[i], t = (w - a[0]) / (b[0] - a[0]);
+        return 'rgb(' + Math.round(a[1] + (b[1] - a[1]) * t) + ',' + Math.round(a[2] + (b[2] - a[2]) * t) + ',' + Math.round(a[3] + (b[3] - a[3]) * t) + ')';
+      }
+    }
+    return 'rgb(232,226,201)';
+  }
+  function rnd(seed) { var x = Math.sin(seed * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); }
+
+  function Brush(cv, salt) {
+    var ctx = cv.getContext('2d'), LW = 200, LH = 300;
+    var scale = 0, dpr = 1, wear = 0, ghost = false, shown = 0, parts = [], raf = 0, tufts = [];
+    // Cerdas: filas alternadas de 4 y 3 mechones; las del borde se gastan antes
+    for (var j = 0; j < 8; j++) {
+      var n = j % 2 === 0 ? 4 : 3, x0 = j % 2 === 0 ? 79.5 : 86.5;
+      for (var i = 0; i < n; i++) {
+        var x = x0 + i * 14, y = 42 + j * 12.5, e = Math.min(1, Math.hypot((x - 100) / 28, (y - 83) / 52));
+        tufts.push({ x: x, y: y, e: e, r: rnd(salt + j * 7 + i), a: [rnd(salt + j + i * 3 + 1), rnd(salt + j * 2 + i + 5), rnd(salt + j + i + 9), rnd(salt + j * 5 + i * 2 + 13)] });
+      }
+    }
+    function body(c) {
+      c.beginPath(); c.moveTo(100, 10);
+      c.bezierCurveTo(130, 10, 142, 30, 142, 58); c.lineTo(142, 108); c.bezierCurveTo(142, 134, 130, 150, 114, 158);
+      c.bezierCurveTo(106, 163, 106, 170, 108, 186); c.bezierCurveTo(110, 214, 124, 236, 124, 262);
+      c.bezierCurveTo(124, 286, 114, 294, 100, 294);
+      c.bezierCurveTo(86, 294, 76, 286, 76, 262); c.bezierCurveTo(76, 236, 90, 214, 92, 186);
+      c.bezierCurveTo(94, 170, 94, 163, 86, 158); c.bezierCurveTo(70, 150, 58, 134, 58, 108); c.lineTo(58, 58);
+      c.bezierCurveTo(58, 30, 70, 10, 100, 10); c.closePath();
+    }
+    function rr(x, y, w, h, r) {
+      ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.arcTo(x + w, y, x + w, y + r, r);
+      ctx.lineTo(x + w, y + h - r); ctx.arcTo(x + w, y + h, x + w - r, y + h, r); ctx.lineTo(x + r, y + h);
+      ctx.arcTo(x, y + h, x, y + h - r, r); ctx.lineTo(x, y + r); ctx.arcTo(x, y, x + r, y, r); ctx.closePath();
+    }
+    function draw() {
+      if (!scale) return;
+      ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
+      var k = dpr * scale; ctx.setTransform(k, 0, 0, k, 0, 0);
+      var g, i;
+      ctx.globalAlpha = ghost ? 0.5 : 1;
+      // cuerpo de vidrio con sombra
+      ctx.save(); ctx.shadowColor = 'rgba(14,27,110,.38)'; ctx.shadowBlur = 16; ctx.shadowOffsetY = 7;
+      g = ctx.createLinearGradient(58, 0, 142, 0);
+      g.addColorStop(0, 'rgba(255,255,255,.88)'); g.addColorStop(.5, 'rgba(255,255,255,.97)'); g.addColorStop(1, 'rgba(226,238,255,.88)');
+      body(ctx); ctx.fillStyle = g; ctx.fill(); ctx.restore();
+      body(ctx); ctx.strokeStyle = 'rgba(255,255,255,.95)'; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.stroke();
+      // agarre del mango
+      rr(91, 204, 18, 56, 9); ctx.fillStyle = 'rgba(41,80,244,.22)'; ctx.fill();
+      for (i = 0; i < 4; i++) { rr(95, 214 + i * 11, 10, 3, 1.5); ctx.fillStyle = 'rgba(41,80,244,.34)'; ctx.fill(); }
+      // base de las cerdas
+      rr(68, 24, 64, 116, 26); ctx.fillStyle = 'rgba(190,214,248,.95)'; ctx.fill(); ctx.strokeStyle = 'rgba(41,80,244,.22)'; ctx.lineWidth = 1.2; ctx.stroke();
+      // cerdas
+      var w = ghost ? 1 : shown;
+      for (i = 0; i < tufts.length; i++) {
+        var t = tufts[i], lw = ghost ? 0.95 : Math.max(0, Math.min(1, w * (0.84 + 0.32 * t.e) + (t.r - 0.5) * 0.1));
+        var col = wearColor(lw);
+        if (lw > 0.42) {
+          var open = (lw - 0.42) / 0.58;
+          ctx.strokeStyle = col; ctx.lineWidth = 2.3; ctx.lineCap = 'round';
+          for (var m = 0; m < 4; m++) {
+            var ang = t.a[m] * 6.2832, len = 2.5 + open * (3.5 + 3.5 * t.a[(m + 1) % 4]);
+            ctx.beginPath(); ctx.moveTo(t.x, t.y); ctx.lineTo(t.x + Math.cos(ang) * (5 + len * 0.5), t.y + Math.sin(ang) * (5 + len * 0.5)); ctx.stroke();
+          }
+        }
+        ctx.beginPath(); ctx.arc(t.x, t.y, 5.6, 0, 6.2832); ctx.fillStyle = col; ctx.fill();
+        ctx.strokeStyle = 'rgba(14,27,110,.22)'; ctx.lineWidth = 0.8; ctx.stroke();
+        ctx.beginPath(); ctx.arc(t.x - 1.6, t.y - 1.7, 1.7, 0, 6.2832); ctx.fillStyle = 'rgba(255,255,255,' + (0.55 * (1 - lw * 0.8)).toFixed(2) + ')'; ctx.fill();
+      }
+      // brillo del vidrio
+      ctx.save(); body(ctx); ctx.clip();
+      g = ctx.createLinearGradient(0, 160, 0, 290);
+      g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(.4, 'rgba(255,255,255,.7)'); g.addColorStop(1, 'rgba(255,255,255,.1)');
+      ctx.fillStyle = g; rr(79, 170, 5, 100, 2.5); ctx.fill();
+      ctx.restore();
+      // espuma
+      for (i = 0; i < parts.length; i++) {
+        var p = parts[i];
+        ctx.globalAlpha = Math.max(0, Math.min(1, p.life)) * (ghost ? 0.5 : 1);
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.2832);
+        ctx.fillStyle = 'rgba(255,255,255,.55)'; ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,.95)'; ctx.lineWidth = 1; ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    }
+    function tick() {
+      raf = 0;
+      var d = wear - shown; shown = Math.abs(d) < 0.001 ? wear : shown + d * 0.12;
+      for (var i = parts.length - 1; i >= 0; i--) {
+        var p = parts[i]; p.y -= p.vy; p.x += Math.sin(p.ph + p.y * 0.08) * 0.35; p.life -= 0.018; p.r += 0.03;
+        if (p.life <= 0) parts.splice(i, 1);
+      }
+      draw();
+      if (parts.length || shown !== wear) raf = requestAnimationFrame(tick);
+    }
+    function go() { if (!raf) raf = requestAnimationFrame(tick); }
+    function resize() {
+      var w = cv.clientWidth; if (!w) return;
+      dpr = Math.min(3, window.devicePixelRatio || 1); scale = w / LW;
+      cv.width = Math.round(w * dpr); cv.height = Math.round(w * LH / LW * dpr);
+      draw();
+    }
+    return {
+      set: function (f, empty) {
+        var first = !cv._init; cv._init = true; ghost = !!empty; wear = f;
+        if (reduced || first || ghost) { shown = f; draw(); } else go();
+      },
+      fresh: function () { shown = 1; if (reduced) { shown = wear; draw(); } else go(); },
+      foam: function () {
+        if (reduced || ghost) return;
+        for (var i = 0; i < 9; i++) parts.push({ x: 82 + Math.random() * 36, y: 40 + Math.random() * 90, r: 2 + Math.random() * 4, vy: 0.5 + Math.random() * 0.9, ph: Math.random() * 6.28, life: 1 + Math.random() * 0.5 });
+        go();
+      },
+      resize: resize
+    };
+  }
+  var brushes = { casa: Brush($('cvCasa'), 3), oficina: Brush($('cvOficina'), 11) };
+
+  /* ---------- Eventos ---------- */
+  $('btnNew').addEventListener('click', function () { openSheet(null); });
+  ORDER.forEach(function (b) {
+    $('cv' + (b === 'casa' ? 'Casa' : 'Oficina')).addEventListener('click', function () {
+      brushes[b].foam();
+      if (!reduced) { var c = this; c.classList.remove('wobble'); void c.offsetWidth; c.classList.add('wobble'); }
+    });
+  });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('[data-act]') : null;
+    if (!b) return;
+    var a = b.getAttribute('data-act');
+    if (a === 'close') closeSheet();
+    else if (a === 'edit') openSheet(b.getAttribute('data-id'));
+    else if (a === 'del') removeReg(b);
+    else if (a === 'pick') {
+      sheet.b = b.getAttribute('data-b');
+      Array.prototype.forEach.call(b.parentNode.children, function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      updNote(); $('fErr').hidden = true;
+    }
+    else if (a === 'bk-copy') backupCopy();
+    else if (a === 'bk-restore') backupRestore(b);
+  });
+  sheetEl.addEventListener('submit', submitSheet);
+  sheetEl.addEventListener('input', function (e) { if (e.target.id === 'fDate') { updNote(); $('fErr').hidden = true; } });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && sheet) closeSheet(); });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) render(); });
+  function resizeAll() { ORDER.forEach(function (b) { brushes[b].resize(); }); }
+  window.addEventListener('resize', resizeAll);
+  if (window.ResizeObserver) { var ro = new ResizeObserver(resizeAll); ro.observe($('cvCasa')); ro.observe($('cvOficina')); }
+  setInterval(render, 60000);
+
+  /* ---------- Inicio ---------- */
+  load(); resizeAll(); render();
+
+  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+  }
+/*PANEL:APP:START*/
+  // Panel Casa: por cada cepillo (casa y oficina), fecha en que se puso y fecha del cambio (el panel cuenta los días)
+  if (window.PanelCasa) PanelCasa.init({ app: 'cepillos', title: 'Cepillos · panel', mount: document.getElementById('panel-casa'), summary: function () {
+    var o = { n: regs.length };
+    ORDER.forEach(function (b) { var s = stats(b); o[b] = s ? { date: s.cur.date, due: s.due } : null; });
+    return o;
+  } });
+/*PANEL:APP:END*/
+})();
+</script>
+<script>
+// Sin zoom con los dedos: Safari en iPhone no siempre respeta «user-scalable=no», así que se cortan sus gestos de zoom
+(function () {
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (t) { document.addEventListener(t, function (e) { e.preventDefault(); }, { passive: false }); });
+  document.addEventListener('touchmove', function (e) { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
+})();
+</script>
+</body>
+</html>
