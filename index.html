@@ -502,8 +502,9 @@ canvas.brush.wobble { animation: wobble 0.5s cubic-bezier(0.3, 1.6, 0.5, 1); }
 
   <details class="backup how">
     <summary>Cómo se calcula</summary>
-    <p>Te lavas los dientes <strong>3 veces al día</strong> (mañana, mediodía y noche). Cada cepillo dura <strong>180 lavados</strong>.</p>
+    <p>Te lavas los dientes <strong>3 veces al día</strong> (mañana, mediodía y noche). Cada cepillo se cambia a los <strong>180 lavados</strong> o al cumplir su máximo de días, lo que ocurra primero: <strong>70 días</strong> el de casa y <strong>1 año</strong> el de la oficina.</p>
     <p>Los <strong>lunes, martes y jueves</strong> el lavado del mediodía es en la oficina, con el otro cepillo. Esos días el cepillo de casa suma 2 lavados y el de la oficina, 1; el resto de los días, el de casa suma 3.</p>
+    <p>El de casa llega a los 180 lavados justo a los 70 días; el de la oficina, a ese ritmo, tardaría más de un año, así que se cambia por antigüedad. El desgaste es el mayor entre los lavados y los días de uso.</p>
     <p>El desgaste se cuenta solo desde la fecha en que pusiste cada cepillo: no hay que anotar cada lavado. Si un día no te lavas los dientes con alguno, corrige la fecha del cepillo para compensar.</p>
   </details>
 
@@ -685,13 +686,14 @@ var PanelCasa = (function () {
   var reduced = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   /* Supuestos de uso (ver «Cómo se calcula»): 3 lavados al día, a estas horas.
-     Los días de oficina, el lavado del mediodía (índice 1) se hace con el cepillo de la oficina. */
+     Los días de oficina, el lavado del mediodía (índice 1) se hace con el cepillo de la oficina.
+     Cada cepillo se cambia a los 180 lavados o a su máximo de días (maxDays), lo que ocurra primero. */
   var WASH_HOURS = [7, 13, 21];
   var OFFICE_WASH = 1;
   var OFFICE_DAYS = [1, 2, 4];          // lunes, martes y jueves
   var BRUSHES = {
-    casa: { name: 'Casa', det: 'de casa', art: 'el cepillo de casa', cap: 180 },
-    oficina: { name: 'Oficina', det: 'de la oficina', art: 'el cepillo de la oficina', cap: 180 }
+    casa: { name: 'Casa', det: 'de casa', art: 'el cepillo de casa', cap: 180, maxDays: 70, lim: '70 días de uso' },
+    oficina: { name: 'Oficina', det: 'de la oficina', art: 'el cepillo de la oficina', cap: 180, maxDays: 365, lim: 'máximo 1 año de uso' }
   };
   var ORDER = ['casa', 'oficina'];
 
@@ -739,21 +741,24 @@ var PanelCasa = (function () {
     if (start <= today) n += washes(today, brush, hour);
     return n;
   }
-  // Día en que el cepillo completa su cupo de lavados
-  function dueDate(brush, start) {
+  // Día del cambio: el primero entre el que completa los lavados del cepillo y el que cumple su máximo de días de uso
+  function washDue(brush, start) {
     var cap = BRUSHES[brush].cap, n = 0, k = start;
     for (var i = 0; i < 4000; i++) { n += washes(k, brush, null); if (n >= cap) return k; k = addDays(k, 1); }
     return k;
   }
+  function timeDue(brush, start) { return addDays(start, BRUSHES[brush].maxDays - 1); }
+  function dueDate(brush, start) { var a = washDue(brush, start), b = timeDue(brush, start); return a < b ? a : b; }
   function current(brush) { for (var i = 0; i < regs.length; i++) if (regs[i].b === brush) return regs[i]; return null; }
   function stats(brush) {
     var cur = current(brush);
     if (!cur) return null;
     var today = todayKey(), hour = hourNow(), cap = BRUSHES[brush].cap;
-    var done = worn(brush, cur.date, today, hour), due = dueDate(brush, cur.date);
+    var done = worn(brush, cur.date, today, hour), due = dueDate(brush, cur.date), md = BRUSHES[brush].maxDays;
+    var days = Math.max(0, diff(cur.date, today)) + hour / 24;
     return {
-      cur: cur, cap: cap, done: done, due: due, left: diff(today, due),
-      frac: Math.max(0, Math.min(1, done / cap)),
+      cur: cur, cap: cap, done: done, due: due, left: diff(today, due), byTime: timeDue(brush, cur.date) < washDue(brush, cur.date),
+      frac: Math.max(0, Math.min(1, Math.max(done / cap, days / md))),
       todayDone: washes(today, brush, hour), todayAll: washes(today, brush, null)
     };
   }
@@ -798,6 +803,7 @@ var PanelCasa = (function () {
     else left = '<div class="until"><span class="lbl">Vencido hace</span><strong>' + (-s.left) + ' ' + plural(-s.left, 'día', 'días') + '</strong></div>';
     var hoy = s.todayAll ? s.todayDone + ' de ' + s.todayAll + ' ' + plural(s.todayAll, 'lavado', 'lavados') : 'No se usa hoy';
     lbl = s.done + ' de ' + s.cap + ' lavados';
+    if (s.byTime) lbl += '</div><div class="pct-lbl">' + BRUSHES[b].lim;
     h += '<div class="pct"><b>' + w + '</b><span>%</span></div><div class="pct-lbl">de desgaste</div><div class="pct-lbl">' + lbl + '</div>' + left +
       '<div class="until"><span class="lbl">Cambio el</span><strong>' + fmt(s.due) + '</strong></div>' +
       '<div class="until"><span class="lbl">Hoy</span><strong>' + hoy + '</strong></div>';
@@ -900,7 +906,7 @@ var PanelCasa = (function () {
   function closeSheet() { sheet = null; sheetEl.hidden = true; sheetEl.innerHTML = ''; document.documentElement.classList.remove('lock'); }
   function updNote() {
     var v = $('fDate').value;
-    $('fNote').innerHTML = validDate(v) ? 'Cambio estimado: <strong>' + fmt(dueDate(sheet.b, v)) + '</strong> (' + BRUSHES[sheet.b].cap + ' lavados)' : '';
+    $('fNote').innerHTML = validDate(v) ? 'Cambio estimado: <strong>' + fmt(dueDate(sheet.b, v)) + '</strong> (' + BRUSHES[sheet.b].lim + (washDue(sheet.b, v) < timeDue(sheet.b, v) ? ' o ' + BRUSHES[sheet.b].cap + ' lavados' : '') + ')' : '';
   }
   function submitSheet(e) {
     e.preventDefault();

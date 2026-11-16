@@ -1,5 +1,5 @@
 // Guarda la app para abrirla sin conexión; siempre intenta primero la versión más nueva.
-const CACHE = 'cepillos-v1-panel-sinzoom';
+const CACHE = 'cepillos-v2-panel-sinzoom';
 const ASSETS = [
   './',
   'index.html',

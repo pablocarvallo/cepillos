@@ -18,12 +18,13 @@ App personal para iPhone que lleva el desgaste de dos cepillos de dientes: el de
 
 Nadie anota cada lavado: el desgaste se cuenta por calendario desde la fecha en que se puso cada cepillo.
 
-- 3 lavados al día (a las 7, 13 y 21 h). Cada cepillo dura 180 lavados.
+- 3 lavados al día (a las 7, 13 y 21 h). Cada cepillo se cambia a los 180 lavados o al cumplir su máximo de días de uso, lo que ocurra primero: 70 días el de casa y 1 año el de la oficina.
 - Lunes, martes y jueves el lavado del mediodía es en la oficina, con el otro cepillo. Esos días el de casa suma 2 lavados y el de la oficina, 1; los demás días, el de casa suma 3.
-- Por semana: casa 18 lavados (≈ 10 semanas de vida, unos 70 días) y oficina 3 (≈ 60 semanas, más de un año).
+- Por semana: casa 18 lavados (≈ 10 semanas de vida, unos 70 días) y oficina 3 (≈ 60 semanas, más de un año). El de casa llega a los 180 lavados justo a los 70 días; el de la oficina se cambia por antigüedad, al año.
+- El porcentaje de desgaste es el mayor entre lavados (de 180) y días de uso (de 70 o de 365).
 - El día en que se pone el cepillo cuenta como día completo; el día de hoy cuenta solo los lavados cuya hora ya pasó.
 
-Los supuestos están al inicio del script, en `WASH_HOURS`, `OFFICE_WASH`, `OFFICE_DAYS` y `BRUSHES` (cupo de lavados de cada cepillo). Si cambia la rutina, se cambian ahí.
+Los supuestos están al inicio del script, en `WASH_HOURS`, `OFFICE_WASH`, `OFFICE_DAYS` y `BRUSHES` (cupo de lavados y máximo de días de cada cepillo). Si cambia la rutina, se cambian ahí.
 
 ## Instalar en el iPhone
 
@@ -41,7 +42,7 @@ En Panel Casa, abre Conexiones y toca «Copiar código para las apps». En esta 
 { app: "cepillos", v: 1, at, n, casa: { date, due } | null, oficina: { date, due } | null }
 ```
 
-`date` es el día en que se puso el cepillo y `due`, el día en que completa sus 180 lavados.
+`date` es el día en que se puso el cepillo y `due`, el día del cambio (el primero entre los 180 lavados y el máximo de días de uso).
 
 ## Archivos
 
